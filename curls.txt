@@ -1,0 +1,43 @@
+----------- Create a new order:
+curl -X POST http://localhost:3000/orders \
+     -H "Content-Type: application/json" \
+     -d '{
+           "email": "test@example.com",
+           "fullName": "John Doe",
+           "fullAddress": "123 Main St, Anytown, USA",
+           "imageUrls": ["http://example.com/image1.jpg", "http://example.com/image2.jpg"],
+           "frame": "wooden",
+           "color": "black",
+           "user": "user123"
+         }'
+
+
+----------- Create a duplicate order (should return 409 Conflict): ----
+curl -X POST http://localhost:3000/orders \
+     -H "Content-Type: application/json" \
+     -d '{
+           "email": "test@example.com",
+           "fullName": "John Doe",
+           "fullAddress": "123 Main St, Anytown, USA",
+           "imageUrls": ["http://example.com/image1.jpg", "http://example.com/image2.jpg"],
+           "frame": "wooden",
+           "color": "black",
+           "user": "user123"
+         }'
+
+
+----------- Get Order by ID ----
+curl -X GET http://localhost:3000/orders/{order_id}
+
+----------- Get order by ID that does not exist (should return 404 Not Found):
+curl -X GET http://localhost:3000/orders/nonexistentorderid
+
+----------- Get all orders:
+curl -X GET http://localhost:3000/orders
+
+----------- Get orders by user (replace {user_id} with the actual user ID):
+curl -X GET http://localhost:3000/orders/user/user123
+
+----------- Get orders for a user that has no orders:
+curl -X GET http://localhost:3000/orders/user/nonexistentuser
+
