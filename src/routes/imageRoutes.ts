@@ -3,7 +3,7 @@ import axios from 'axios';
 import NodeCache from 'node-cache';
 import dotenv from 'dotenv';
 
-dotenv.config(); // Load environment variables
+dotenv.config();
 
 const router = Router();
 
@@ -19,11 +19,9 @@ router.get('/images/:count', async (req: Request, res: Response) => {
   const count = parseInt(req.params.count);
 
   if (isNaN(count) || count <= 0) {
-    return res
-      .status(400)
-      .send({
-        error: 'Invalid count parameter. It must be a positive number.',
-      });
+    return res.status(400).send({
+      error: 'Invalid count parameter. It must be a positive number.',
+    });
   }
 
   const cacheKey = `images-${count}`;

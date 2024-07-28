@@ -31,8 +31,15 @@ router.post(
       const orderData: IOrder = req.body;
       const order = await createOrder(orderData);
       res.status(201).json(order); // Return the created order JSON
-    } catch (error) {
-      res.status(400).json({ error: 'Error creating order' });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        if (error.message === 'Order already exists for this email and user') {
+          return res.status(409).json({ error: error.message }); // Conflict
+        }
+        res.status(400).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'An unexpected error occurred' });
+      }
     }
   },
 );
@@ -44,8 +51,12 @@ router.get('/orders/:id', async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Order not found' });
     }
     res.json(order);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching order' });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'An unexpected error occurred' });
+    }
   }
 });
 
@@ -53,8 +64,12 @@ router.get('/orders', async (_req: Request, res: Response) => {
   try {
     const orders = await getAllOrders();
     res.json(orders);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching orders' });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'An unexpected error occurred' });
+    }
   }
 });
 
@@ -63,8 +78,12 @@ router.get('/orders/user/:user', async (req: Request, res: Response) => {
     const user = req.params.user;
     const orders = await getOrdersByUser(user);
     res.json(orders);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching orders for user' });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'An unexpected error occurred' });
+    }
   }
 });
 

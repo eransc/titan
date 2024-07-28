@@ -1,10 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import orderRoutes from './routes/orderRoutes'; // Import order routes
-import imageRoutes from './routes/imageRoutes'; // Import image routes
+import orderRoutes from './routes/orderRoutes';
+import imageRoutes from './routes/imageRoutes'; 
 
-dotenv.config(); // Load environment variables from .env file
+dotenv.config(); 
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -25,10 +25,7 @@ mongoose
     process.exit(1);
   });
 
-// Use image routes
 app.use(imageRoutes);
-
-// Use order routes
 app.use(orderRoutes);
 
 app.listen(port, () => {

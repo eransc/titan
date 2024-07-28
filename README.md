@@ -20,5 +20,11 @@ This project is a Node.js and TypeScript based API for managing orders. It uses 
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone [<repository-url>](https://github.com/eransc/titan.git)
+   cd titan
+   ```
+
+
+   
+
+

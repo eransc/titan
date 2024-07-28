@@ -1,6 +1,13 @@
 import { Order, IOrder } from '../models/Order';
 
 const createOrder = async (orderData: IOrder) => {
+  const existingOrder = await Order.findOne({
+    email: orderData.email,
+    user: orderData.user,
+  });
+  if (existingOrder) {
+    throw new Error('Order already exists for this email and user');
+  }
   const order = new Order(orderData);
   return await order.save();
 };
